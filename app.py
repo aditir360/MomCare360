@@ -26,3 +26,26 @@ def text_to_speech_ai(speech_file_path, api_response):
 
 
 st.title("Mom Care 360 AI Assistant")
+
+"""
+Welcome! Please let me know how I can help you today.
+"""
+
+audio_bytes = audio_recorder()
+
+if audio_bytes:
+    audio_location = "audio_file.wav"
+    
+    with open(audio_location, "wb") as f:
+        f.write(audio_bytes)
+
+    text = transcribe_text_to_voice(audio_location)
+    st.write(text)
+    
+    api_response = chat_completion_call(text)
+    st.write(api_response)
+
+    speech_file_path = 'audio_response.mp3'
+    text_to_speech_ai(speech_file_path, api_response)
+    
+    st.audio(speech_file_path)
